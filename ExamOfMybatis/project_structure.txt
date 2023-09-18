@@ -1,0 +1,27 @@
+                         
+├───src
+│   ├───main
+│   │   ├───java
+│   │   │   └───com
+│   │   │       └───nighterdream
+│   │   │           │   Demo1.java
+│   │   │           │   Demo2.java
+│   │   │           │   Demo3.java
+│   │   │           │   MyBatisUtils.java
+│   │   │           │   
+│   │   │           ├───Mapper
+│   │   │           │       EmployeeMapper.java
+│   │   │           │       
+│   │   │           └───Pojo
+│   │   │                   Employee.java
+│   │   │                   
+│   │   └───resources
+│   │       │   mybatis-config.xml
+│   │       │   
+│   │       └───mapper
+│   │               employeeMapper.xml
+│   │               
+│   └───test
+│       └───java
+└───target
+ 
