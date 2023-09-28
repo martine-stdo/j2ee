@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 环境配置 -->
+    <!-- 加载类路径下的属性文件 -->
+    <properties resource="db.properties"/>
+
+    <settings>
+        <!-- resultMap开启自动映射，不需要列出所有字段名-->
+        <setting name="autoMappingBehavior" value="FULL" />
+        <!--开启mybatis的二级缓存，提高多表关联查询的效率-->
+        <setting name="cacheEnabled" value="true"/>
+        <!--开启延迟加载开关-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--将积极加载改为消息加载，按需加载-->
+        <setting name="aggressiveLazyLoading" value="false"/>
+
+    </settings>
+
+    <!-- 设置别名 -->
+    <typeAliases>
+        <package name="edu.whpu.pojo"/>
+    </typeAliases>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <!-- 数据库连接相关配置 ,db.properties文件中的内容-->
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- mapping文件路径配置 -->
+
+    <mappers>
+        <mapper class="edu.whpu.mapper.TbStudentMapper"/>
+        <mapper class="edu.whpu.mapper.TbClassMapper"/>
+
+    </mappers>
+
+
+</configuration>
