@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.whpu.roger.mapper.AccountMapper">
+    <select id="getAccountById" resultType="edu.whpu.roger.pojo.Account">
+        SELECT * FROM tb_account WHERE id = #{id}
+    </select>
+    <select id="getAccountByAccountName" resultType="edu.whpu.roger.pojo.Account">
+        SELECT * FROM tb_account WHERE account = #{accountName} LIMIT 1
+    </select>
+
+    <insert id="insertAccount">
+        INSERT INTO tb_account (account, balance) VALUES (#{account}, #{balance})
+    </insert>
+
+    <update id="updateAccount">
+        UPDATE tb_account SET balance = #{balance} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteAccount">
+        DELETE FROM tb_account WHERE id = #{id}
+    </delete>
+</mapper>

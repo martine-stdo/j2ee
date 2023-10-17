@@ -10,14 +10,14 @@ public class MainApp {
         UserService userService = context.getBean(UserService.class);
         VipService vipService = context.getBean(VipService.class);
 
-        userService.addUser("Asuka");
-        userService.updateUser("Rei");
-        userService.deleteUser("Shinji");
-        userService.findUser("Misato");
+        userService.addUser("张三");
+        userService.updateUser("里斯");
+        userService.deleteUser("王五");
+        userService.findUser("张麻子");
 
-        vipService.addVip("碇 シンジ");
-        vipService.updateVip("綾波 レイ");
-        vipService.deleteVip("惣流・アスカ・ラングレー");
-        vipService.findVip("渚 カヲル");
+        vipService.addVip("张三");
+        vipService.updateVip("李四");
+        vipService.deleteVip("王五");
+        vipService.findVip("黛玉");
     }
 }

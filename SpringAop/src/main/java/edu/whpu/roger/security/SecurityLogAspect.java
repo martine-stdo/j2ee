@@ -19,7 +19,7 @@ public class SecurityLogAspect {
         String currentTime = sdf.format(new Date());
 
         // 获取操作人员的信息（模拟硬编码）
-        String operatorName = "Nighterdream";
+        String operatorName = "hanxue";
 
         // 获取目标方法的详细信息
         String methodName = joinPoint.getSignature().getName();
