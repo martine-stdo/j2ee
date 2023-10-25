@@ -15,7 +15,9 @@ E:.
 │   │   jarRepositories.xml
 │   │   misc.xml
 │   │   modules.xml
+│   │   uiDesigner.xml
 │   │   vcs.xml
+│   │   webContexts.xml
 │   │   workspace.xml
 │   │   
 │   └───dataSources
@@ -25,6 +27,7 @@ E:.
 │           └───storage_v2
 │               └───_src_
 │                   └───schema
+│                           banksystem.a9sjPA.meta
 │                           information_schema.FNRwLQ.meta
 │                           mysql.osA4Bg.meta
 │                           performance_schema.kIw0nw.meta
@@ -36,57 +39,102 @@ E:.
 │   │   │   └───edu
 │   │   │       └───whpu
 │   │   │           └───roger
-│   │   │               │   BankAccountTest.java
-│   │   │               │   BankCrudTest.java
 │   │   │               │   Main.java
 │   │   │               │   
+│   │   │               ├───controller
+│   │   │               │       HomeController.java
+│   │   │               │       TransferController.java
+│   │   │               │       UserController.java
+│   │   │               │       
 │   │   │               ├───mapper
 │   │   │               │       AccountMapper.java
+│   │   │               │       UserMapper.java
 │   │   │               │       
 │   │   │               ├───pojo
 │   │   │               │       Account.java
+│   │   │               │       User.java
+│   │   │               │       UserCredentials.java
 │   │   │               │       
 │   │   │               └───service
 │   │   │                   │   AccountService.java
+│   │   │                   │   UserService.java
 │   │   │                   │   
 │   │   │                   └───impl
 │   │   │                           AccountServiceImpl.java
+│   │   │                           UserServiceImpl.java
 │   │   │                           
-│   │   └───resources
-│   │       │   jdbc.properties
-│   │       │   spring-config.xml
-│   │       │   
-│   │       └───mapper
-│   │               AccountMapper.xml
-│   │               
+│   │   ├───resources
+│   │   │   │   jdbc.properties
+│   │   │   │   spring-config.xml
+│   │   │   │   spring-mvc.xml
+│   │   │   │   
+│   │   │   └───mapper
+│   │   │           AccountMapper.xml
+│   │   │           UserMapper.xml
+│   │   │           
+│   │   └───webapp
+│   │       └───WEB-INF
+│   │           │   dispatcher-servlet.xml
+│   │           │   web.xml
+│   │           │   
+│   │           ├───static
+│   │           │   │   login.html
+│   │           │   │   register.html
+│   │           │   │   transfer2.html
+│   │           │   │   
+│   │           │   ├───css
+│   │           │   │       my-login.css
+│   │           │   │       
+│   │           │   ├───images
+│   │           │   │       bg.jpg
+│   │           │   │       favicon.png
+│   │           │   │       logo.jpg
+│   │           │   │       
+│   │           │   └───js
+│   │           │           my-login.js
+│   │           │           
+│   │           └───views
 │   └───test
 │       └───java
-└───target
-    ├───classes
-    │   │   jdbc.properties
-    │   │   spring-config.xml
-    │   │   
-    │   ├───edu
-    │   │   └───whpu
-    │   │       └───roger
-    │   │           │   BankAccountTest.class
-    │   │           │   BankCrudTest.class
-    │   │           │   Main.class
-    │   │           │   
-    │   │           ├───mapper
-    │   │           │       AccountMapper.class
-    │   │           │       
-    │   │           ├───pojo
-    │   │           │       Account.class
-    │   │           │       
-    │   │           └───service
-    │   │               │   AccountService.class
-    │   │               │   
-    │   │               └───impl
-    │   │                       AccountServiceImpl.class
-    │   │                       
-    │   └───mapper
-    │           AccountMapper.xml
-    │           
-    └───generated-sources
-        └───annotations
+├───target
+│   ├───classes
+│   │   │   jdbc.properties
+│   │   │   spring-config.xml
+│   │   │   spring-mvc.xml
+│   │   │   
+│   │   ├───edu
+│   │   │   └───whpu
+│   │   │       └───roger
+│   │   │           │   Main.class
+│   │   │           │   
+│   │   │           ├───controller
+│   │   │           │       HomeController.class
+│   │   │           │       TransferController.class
+│   │   │           │       UserController.class
+│   │   │           │       
+│   │   │           ├───mapper
+│   │   │           │       AccountMapper.class
+│   │   │           │       UserMapper.class
+│   │   │           │       
+│   │   │           ├───pojo
+│   │   │           │       Account.class
+│   │   │           │       User.class
+│   │   │           │       UserCredentials.class
+│   │   │           │       
+│   │   │           └───service
+│   │   │               │   AccountService.class
+│   │   │               │   UserService.class
+│   │   │               │   
+│   │   │               └───impl
+│   │   │                       AccountServiceImpl.class
+│   │   │                       UserServiceImpl.class
+│   │   │                       
+│   │   └───mapper
+│   │           AccountMapper.xml
+│   │           UserMapper.xml
+│   │           
+│   └───generated-sources
+│       └───annotations
+└───WEB-INF
+        dispatcher-servlet.xml
+        

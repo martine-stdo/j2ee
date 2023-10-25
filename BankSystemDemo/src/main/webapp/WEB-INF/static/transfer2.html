@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>银行转账</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 120px;
+            text-align: center;
+            background-image: url("images/bg.jpg");
+            background-size: cover;
+
+        }
+        h1 {
+            color: #333;
+        }
+        #transfer-container {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            margin: 10px auto;
+            padding: 40px;
+            max-width: 400px;
+
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #message {
+            margin-top: 30px;
+            color: #FF0000;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="transfer-container">
+    <h1>银行转账</h1>
+    <p>当前账户： <span id="current-username"></span></p>
+    <p>账户余额：¥<span id="current-balance"></span></p>
+
+    <label for="toAccount">收款账户：</label>
+    <input type="text" id="toAccount" placeholder="收款账户" />
+
+    <label for="amount">转账金额：</label>
+    <input type="text" id="amount" placeholder="金额" />
+
+    <button id="transfer-button">转账</button>
+    <button id="leave-button">退出</button>
+
+    <p id="message"></p>
+</div>
+
+<script>
+    // 从localStorage中获取当前用户名
+    const username = localStorage.getItem('username');
+    let accountName = '';
+
+    // 离开按钮点击事件
+    document.getElementById('leave-button').addEventListener('click', function () {
+        // 导航到登录页面的URL，替换'login.html'为您的登录页面URL
+        window.location.href = 'login.html';
+    });
+
+
+    // 获取当前用户余额和账户名
+    fetch('/BankSystemDemo/user/getInfo', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: username
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error_message === "failed") {
+                document.getElementById('message').textContent = '获取用户余额失败';
+            } else if (data.error_message === "invalid_input") {
+                document.getElementById('message').textContent = '无效的输入';
+            } else {
+                // 成功获取余额后，更新页面上的当前余额和账户名
+                document.getElementById('current-balance').textContent = data.balance;
+                accountName = data.fromAccount;
+                document.getElementById('current-username').textContent = accountName;
+            }
+        });
+
+    // 添加转账事件监听器
+    document.getElementById('transfer-button').addEventListener('click', function () {
+        const toAccount = document.getElementById('toAccount').value;
+        const amount = parseFloat(document.getElementById('amount').value);
+
+        // 检查输入是否有效
+        if (!toAccount || isNaN(amount)) {
+            document.getElementById('message').textContent = '请输入有效的账户和金额';
+            return;
+        }
+
+        // 发送转账请求
+        fetch('/BankSystemDemo/transfer/transferFunds', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                fromAccountName: accountName, // 源账户为当前用户的账户名
+                toAccountName: toAccount,  // 目标账户名
+                amount: amount
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('message').textContent = data.error_message;
+                // 更新余额
+                if (data.error_message === "Success") {
+                    // 请求成功后，重新获取余额并更新页面
+                    fetch('/BankSystemDemo/user/getInfo', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            username: username
+                        })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.error_message === "failed") {
+                                document.getElementById('message').textContent = '获取用户余额失败';
+                            } else if (data.error_message === "invalid_input") {
+                                document.getElementById('message').textContent = '无效的输入';
+                            } else {
+                                document.getElementById('current-balance').textContent = data.balance;
+                                accountName = data.fromAccount;
+                                document.getElementById('current-username').textContent = accountName;
+                            }
+                        });
+                }
+            });
+    });
+
+</script>
+</body>
+</html>

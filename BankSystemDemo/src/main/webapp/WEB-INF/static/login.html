@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Kodinger">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>登录</title>
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png" >
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/my-login.css">
+
+</head>
+
+<body class="my-login-page">
+<section class="h-100">
+    <div class="container h-100">
+        <div class="row justify-content-md-center h-100">
+            <div class="card-wrapper">
+                <div class="brand">
+                    <img src="images/logo.jpg" alt="logo">
+                </div>
+                <div class="card fat">
+                    <div id="message-container"></div>
+                    <div class="card-body">
+                        <h4 class="card-title">登录</h4>
+                        <form method="POST" class="my-login-validation" novalidate="">
+                            <div class="form-group">
+                                <label for="Username">用户名</label>
+                                <input id="Username" type="Username" class="form-control" name="Username" value="" required
+                                       autofocus>
+                                <div class="invalid-feedback">
+                                    Username is invalid
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">密码
+                                    <a href="forgot" class="float-right">
+                                        忘记密码?
+                                    </a>
+                                </label>
+                                <input id="password" type="password" class="form-control" name="password" required
+                                       data-eye>
+                                <div class="invalid-feedback">
+                                    请输入密码
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="custom-checkbox custom-control">
+                                    <input type="checkbox" name="remember" id="remember"
+                                           class="custom-control-input">
+                                    <label for="remember" class="custom-control-label">记住我</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group m-0">
+                                <button type="submit" class="btn btn-primary btn-block">
+                                    登录
+                                </button>
+                            </div>
+                            <div class="mt-4 text-center">
+                                还没有账号? <a href="register.html">注册一个</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="footer">
+                    Copyright &copy; 2023 &mdash; nighterdream
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+<script src="js/my-login.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        // 获取表单元素和消息容器
+        const form = document.querySelector('.my-login-validation');
+        const messageContainer = document.getElementById('message-container');
+
+        // 添加表单提交事件监听器
+        form.addEventListener('submit', function (event) {
+        event.preventDefault(); // 阻止表单的默认提交行为
+
+        // 获取用户名和密码
+        const username = document.getElementById('Username').value;
+        const password = document.getElementById('password').value;
+
+        // 创建请求数据对象
+        const data = {
+        username: username,
+        password: password
+    };
+
+        // 发送POST请求到后端
+        fetch('/BankSystemDemo/user/login', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+    },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(data => {
+        // 根据后端返回的error_message进行相应的显示
+        if (data.error_message === 'success') {
+        showMessage('登录成功');
+            // 存储用户名到localStorage
+            localStorage.setItem('username', username);
+            //延迟100毫秒后执行页面跳转
+            setTimeout(function() {
+                window.location.href = 'transfer2.html';
+            }, 1000);
+        } else if (data.error_message === 'failed') {
+        showMessage('登录失败，请检查用户名和密码');
+    } else if (data.error_message === 'invalid_input') {
+        showMessage('请输入有效的用户名和密码');
+    } else {
+        showMessage('未知错误');
+    }
+    })
+        .catch(error => {
+        showMessage('发生错误，请重试');
+        console.error(error);
+    });
+    });
+
+        // 显示消息的函数
+        function showMessage(message) {
+        messageContainer.innerHTML = "<div class='alert alert-info'>" + message + "</div>";
+
+        // 自动隐藏消息提示框
+        setTimeout(function () {
+        messageContainer.innerHTML = "";
+    }, 5000); // 消息框将在5秒后自动消失
+    }
+    });
+</script>
+
+</body>
+
+</html>
